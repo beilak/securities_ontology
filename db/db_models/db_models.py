@@ -102,3 +102,41 @@ gdp = sa.Table(
     sa.Column("country", sa.String, sa.ForeignKey("country.id"), nullable=False),
     sa.Column("gdp", DECIMAL(10, 9), nullable=False),
 )
+
+person = sa.Table(
+    "person",
+    metadata,
+    sa.Column("id", UUID(as_uuid=True), primary_key=True, default=uuid4()),
+    sa.Column("name", sa.String, nullable=False),
+)
+
+ceo = sa.Table(
+    "ceo",
+    metadata,
+    sa.Column(
+        "issuer",
+        UUID(as_uuid=True),
+        sa.ForeignKey("issuer.id"),
+        nullable=False,
+        primary_key=True,
+    ),
+    sa.Column(
+        "person",
+        UUID(as_uuid=True),
+        sa.ForeignKey("person.id"),
+        nullable=False,
+        primary_key=True,
+    ),
+    sa.Column("date_start", sa.Date, primary_key=True),
+    sa.Column("date_end", sa.Date),
+)
+
+
+person = sa.Table(
+    "twitter",
+    metadata,
+    sa.Column("id", UUID(as_uuid=True), primary_key=True, default=uuid4()),
+    sa.Column("date_time", sa.DateTime, nullable=False),
+    sa.Column("text", sa.String, nullable=False),
+    sa.Column("related_issuer", UUID(as_uuid=True), sa.ForeignKey("issuer.id")),
+)
