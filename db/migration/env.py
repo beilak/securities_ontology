@@ -1,9 +1,10 @@
+import os
 from logging.config import fileConfig
 
+from alembic import context
 from sqlalchemy import create_engine
 
-from alembic import context
-import os
+from db.db_models.db_models import metadata
 
 
 def get_dsn() -> str:
@@ -30,9 +31,7 @@ if config.config_file_name is not None:
 # target_metadata = mymodel.Base.metadata
 # from db_models.db_base import Base
 
-from db.db_models.db_base import Base
-
-target_metadata = Base.metadata
+target_metadata = metadata
 
 # other values from the config, defined by the needs of env.py,
 # can be acquired:

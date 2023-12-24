@@ -21,6 +21,7 @@ pytest = "^7.4.3"
 black = "^23.12.1"
 ruff = "^0.1.9"
 isort = "^5.13.2"
+mypy = "^1.8.0"
 
 [build-system]
 requires = ["poetry-core"]
