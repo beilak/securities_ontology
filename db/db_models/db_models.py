@@ -61,3 +61,15 @@ issuer = sa.Table(
         "currency", UUID(as_uuid=True), sa.ForeignKey("currency.id"), nullable=False
     ),
 )
+
+securities = sa.Table(
+    "securities",
+    metadata,
+    sa.Column("figi", sa.String, primary_key=True),
+    sa.Column("ticker", sa.String, nullable=False),
+    sa.Column("name", sa.String, nullable=False),
+    sa.Column("issuer", UUID(as_uuid=True), sa.ForeignKey("issuer.id"), nullable=False),
+    sa.Column(
+        "type", UUID(as_uuid=True), sa.ForeignKey("securities_type.id"), nullable=False
+    ),
+)
