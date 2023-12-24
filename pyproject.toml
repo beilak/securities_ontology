@@ -1,0 +1,26 @@
+[tool.poetry]
+name = "securities-ontology"
+version = "0.1.0"
+description = "Service Securities Ontology"
+authors = ["Beilak <beylak@yandex.ru>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12, <3.13"
+alembic = "^1.13.1"
+fastapi = "^0.105.0"
+pydantic = "^2.5.3"
+fresh-bakery = "^0.3.3"
+databases = "^0.8.0"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.3"
+black = "^23.12.1"
+ruff = "^0.1.9"
+isort = "^5.13.2"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
