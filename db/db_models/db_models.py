@@ -44,3 +44,20 @@ currency = sa.Table(
         "currency", UUID(as_uuid=True), sa.ForeignKey("currency.id"), nullable=False
     ),
 )
+
+
+# main tables
+issuer = sa.Table(
+    "issuer",
+    metadata,
+    sa.Column("id", UUID(as_uuid=True), primary_key=True, default=uuid4()),
+    sa.Column("name", sa.String),
+    sa.Column("ipo_date", sa.Date),
+    sa.Column("sector", UUID(as_uuid=True), sa.ForeignKey("sector.id"), nullable=False),
+    sa.Column(
+        "industry", UUID(as_uuid=True), sa.ForeignKey("industry.id"), nullable=False
+    ),
+    sa.Column(
+        "currency", UUID(as_uuid=True), sa.ForeignKey("currency.id"), nullable=False
+    ),
+)
