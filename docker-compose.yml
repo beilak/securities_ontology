@@ -1,0 +1,13 @@
+version: "3.9"
+
+services:
+  db_test:
+    image: postgres:16
+    volumes:
+      - ./.db_volumes/test_db:/var/lib/postgresql/data
+    ports:
+      - "5001:5432"
+    environment:
+      - POSTGRES_DB=securities_db
+      - POSTGRES_USER=securities_user
+      - POSTGRES_PASSWORD=securities_pwd
