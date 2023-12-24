@@ -2,6 +2,8 @@ from uuid import uuid4
 
 import sqlalchemy as sa
 from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.types import DECIMAL
+
 
 metadata = sa.MetaData()
 
@@ -72,4 +74,16 @@ securities = sa.Table(
     sa.Column(
         "type", UUID(as_uuid=True), sa.ForeignKey("securities_type.id"), nullable=False
     ),
+)
+
+ohlc = sa.Table(
+    "ohlc_1d",
+    metadata,
+    sa.Column("figi", sa.String, sa.ForeignKey("securities.figi"), primary_key=True),
+    sa.Column("date_time", sa.DateTime, primary_key=True),
+    sa.Column("open", DECIMAL(10, 9), nullable=False),
+    sa.Column("high", sa.String, nullable=False),
+    sa.Column("low", sa.String, nullable=False),
+    sa.Column("close", sa.String, nullable=False),
+    sa.Column("volume", sa.Integer, nullable=False),
 )
