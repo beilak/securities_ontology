@@ -1,7 +1,7 @@
 from uuid import uuid4
-from sqlalchemy.dialects.postgresql import UUID
 
 import sqlalchemy as sa
+from sqlalchemy.dialects.postgresql import UUID
 
 metadata = sa.MetaData()
 
