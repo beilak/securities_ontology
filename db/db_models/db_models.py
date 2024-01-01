@@ -4,7 +4,6 @@ import sqlalchemy as sa
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.types import DECIMAL
 
-
 metadata = sa.MetaData()
 
 # ToDo Ref. spliat this file
