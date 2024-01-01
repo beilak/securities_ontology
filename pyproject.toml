@@ -14,6 +14,8 @@ pydantic = "^2.5.3"
 fresh-bakery = "^0.3.3"
 databases = "^0.8.0"
 psycopg2-binary = "^2.9.9"
+tinkoff-investments = "^0.2.0b63"
+asyncpg = "^0.29.0"
 
 
 [tool.poetry.group.dev.dependencies]

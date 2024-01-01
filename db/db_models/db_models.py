@@ -65,7 +65,6 @@ issuer = sa.Table(
     metadata,
     sa.Column("id", UUID(as_uuid=True), primary_key=True, default=uuid4()),
     sa.Column("name", sa.String),
-    sa.Column("ipo_date", sa.Date),
     sa.Column("sector", sa.String, sa.ForeignKey("sector.id"), nullable=False),
     sa.Column("industry", sa.String, sa.ForeignKey("industry.id"), nullable=True),
     sa.Column("country", sa.String, sa.ForeignKey("country.id"), nullable=False),
@@ -77,6 +76,8 @@ securities = sa.Table(
     sa.Column("figi", sa.String, primary_key=True),
     sa.Column("ticker", sa.String, nullable=False),
     sa.Column("name", sa.String, nullable=False),
+    sa.Column("ipo_date", sa.Date),
+    sa.Column("first_1day_candle_date", sa.Date),
     sa.Column("currency", sa.String, sa.ForeignKey("currency.id")),
     sa.Column("exchange", sa.String, sa.ForeignKey("exchange.id"), nullable=False),
 )
@@ -86,11 +87,11 @@ ohlc = sa.Table(
     metadata,
     sa.Column("figi", sa.String, sa.ForeignKey("securities.figi"), primary_key=True),
     sa.Column("date_time", sa.DateTime, primary_key=True),
-    sa.Column("open", DECIMAL(10, 9), nullable=False),
-    sa.Column("high", DECIMAL(10, 9), nullable=False),
-    sa.Column("low", DECIMAL(10, 9), nullable=False),
-    sa.Column("close", DECIMAL(10, 9), nullable=False),
-    sa.Column("volume", sa.Integer, nullable=False),
+    sa.Column("open", DECIMAL(18, 9), nullable=False),
+    sa.Column("high", DECIMAL(18, 9), nullable=False),
+    sa.Column("low", DECIMAL(18, 9), nullable=False),
+    sa.Column("close", DECIMAL(18, 9), nullable=False),
+    sa.Column("volume", sa.BigInteger, nullable=False),
 )
 
 central_bank_rate = sa.Table(

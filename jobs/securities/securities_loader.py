@@ -6,39 +6,17 @@ from tinkoff.invest.services import InstrumentsService
 
 from databases import Database
 
-# from datetime import timedelta, datetime
-
-
-# LOAD_SHARE_DATE_FROM = now() - timedelta(days=30 * 12)
-# LOAD_CURRENCY_DATE_FROM = now() - timedelta(days=30 * 12)
-
-# CANDLE_INTERVAL = CandleInterval.CANDLE_INTERVAL_1_MIN
-
-# CANDLE_INTERVAL = CandleInterval.CANDLE_INTERVAL_HOUR
-
-
-# SHARES_FOR_LOAD = {"SBER", "YNDX"}
-
 
 def fetch_shares_info(
-    token: str,  # shares_filter: ShareInfoFilter
-):  # -> dict[TickerID, Share]:
+    token: str,
+):
     """Fatching tickers info"""
 
     with Client(token) as client:
         instruments: InstrumentsService = client.instruments
-        # share_catalog: dict[TickerID, Share] = {}
 
         shares: ShareResponse = instruments.shares()
         return shares.instruments
-        # share: Share
-        # for share in shares:
-        #     # if not _is_share_pass_filter(share=share, shares_filter=shares_filter):
-        #     #   continue
-        #
-        #     share_catalog[share.ticker] = share
-        #
-        # return share_catalog
 
 
 async def save_data(values: list[dict]):
@@ -47,14 +25,17 @@ async def save_data(values: list[dict]):
 
     await database.connect()
     query = """
-        INSERT INTO securities(figi, ticker, name, currency, exchange)
-        VALUES (:figi, :ticker, :name, :currency, :exchange)
-        ON CONFLICT DO NOTHING
+        INSERT INTO securities(figi, ticker, name, ipo_date, first_1day_candle_date, currency, exchange)
+        VALUES (:figi, :ticker, :name, :ipo_date, :first_1day_candle_date, :currency, :exchange)
+        ON CONFLICT (figi) DO UPDATE
+        SET 
+            name = :name,
+            ipo_date = :ipo_date,
+            first_1day_candle_date = :first_1day_candle_date
     """
 
     await database.execute_many(query=query, values=values)
 
-    # Close all connections in the connection pool
     await database.disconnect()
 
 
@@ -73,6 +54,8 @@ def load_data() -> None:
                 "figi": share.figi,
                 "name": share.name,
                 "ticker": share.ticker,
+                "ipo_date": share.ipo_date,
+                "first_1day_candle_date": share.first_1day_candle_date,
                 "currency": share.currency.upper(),
                 "exchange": share.exchange.upper(),
             }
