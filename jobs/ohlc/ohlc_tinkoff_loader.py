@@ -50,7 +50,7 @@ async def fetch_ohlc_by_figi(
         except AioRequestError as exc:
             if exc.code == StatusCode.RESOURCE_EXHAUSTED:
                 print(exc.code)
-                await asyncio.sleep(1)
+                await asyncio.sleep(2)
             else:
                 print(f"!!! Error {figi}", exc)
 
@@ -131,10 +131,13 @@ async def main():
         print(f"Finish {figi = }!")
 
     tasks: set = set()
-    for figi in await fetch_figi(db=database):
-        tasks.add(__run(figi))
+    figis = await fetch_figi(db=database)
 
-    await asyncio.gather(*tasks)
+    for idx, figi in enumerate(figis):
+        tasks.add(__run(figi))
+        if len(tasks) >= 25 or idx == len(figis) - 1:
+            await asyncio.gather(*tasks)
+            tasks = set()
 
 
 asyncio.run(main())
