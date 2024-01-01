@@ -21,14 +21,14 @@ securities_type = sa.Table(
 sector = sa.Table(
     "sector",
     metadata,
-    sa.Column("id", UUID(as_uuid=True), primary_key=True, default=uuid4()),
+    sa.Column("id", sa.String, primary_key=True),
     sa.Column("name", sa.String),
 )
 
 industry = sa.Table(
     "industry",
     metadata,
-    sa.Column("id", UUID(as_uuid=True), primary_key=True, default=uuid4()),
+    sa.Column("id", sa.String, primary_key=True),
     sa.Column("name", sa.String),
 )
 
@@ -42,9 +42,20 @@ currency = sa.Table(
 country = sa.Table(
     "country",
     metadata,
-    sa.Column("id", sa.String, primary_key=True, default=uuid4()),
+    sa.Column("id", sa.String, primary_key=True),
     sa.Column("name", sa.String),
     sa.Column("currency", sa.String, sa.ForeignKey("currency.id"), nullable=False),
+)
+
+exchange = sa.Table(
+    "exchange",
+    metadata,
+    sa.Column("id", sa.String, primary_key=True),
+    sa.Column(
+        "name",
+        sa.String,
+    ),
+    sa.Column("country", sa.String, sa.ForeignKey("country.id"), nullable=False),
 )
 
 
@@ -54,11 +65,8 @@ issuer = sa.Table(
     metadata,
     sa.Column("id", UUID(as_uuid=True), primary_key=True, default=uuid4()),
     sa.Column("name", sa.String),
-    sa.Column("ipo_date", sa.Date),
-    sa.Column("sector", UUID(as_uuid=True), sa.ForeignKey("sector.id"), nullable=False),
-    sa.Column(
-        "industry", UUID(as_uuid=True), sa.ForeignKey("industry.id"), nullable=False
-    ),
+    sa.Column("sector", sa.String, sa.ForeignKey("sector.id"), nullable=False),
+    sa.Column("industry", sa.String, sa.ForeignKey("industry.id"), nullable=True),
     sa.Column("country", sa.String, sa.ForeignKey("country.id"), nullable=False),
 )
 
@@ -68,11 +76,10 @@ securities = sa.Table(
     sa.Column("figi", sa.String, primary_key=True),
     sa.Column("ticker", sa.String, nullable=False),
     sa.Column("name", sa.String, nullable=False),
-    sa.Column("issuer", UUID(as_uuid=True), sa.ForeignKey("issuer.id"), nullable=False),
-    sa.Column(
-        "type", UUID(as_uuid=True), sa.ForeignKey("securities_type.id"), nullable=False
-    ),
-    sa.Column("country", sa.String, sa.ForeignKey("country.id"), nullable=False),
+    sa.Column("ipo_date", sa.Date),
+    sa.Column("first_1day_candle_date", sa.Date),
+    sa.Column("currency", sa.String, sa.ForeignKey("currency.id")),
+    sa.Column("exchange", sa.String, sa.ForeignKey("exchange.id"), nullable=False),
 )
 
 ohlc = sa.Table(
@@ -80,11 +87,11 @@ ohlc = sa.Table(
     metadata,
     sa.Column("figi", sa.String, sa.ForeignKey("securities.figi"), primary_key=True),
     sa.Column("date_time", sa.DateTime, primary_key=True),
-    sa.Column("open", DECIMAL(10, 9), nullable=False),
-    sa.Column("high", DECIMAL(10, 9), nullable=False),
-    sa.Column("low", DECIMAL(10, 9), nullable=False),
-    sa.Column("close", DECIMAL(10, 9), nullable=False),
-    sa.Column("volume", sa.Integer, nullable=False),
+    sa.Column("open", DECIMAL(18, 9), nullable=False),
+    sa.Column("high", DECIMAL(18, 9), nullable=False),
+    sa.Column("low", DECIMAL(18, 9), nullable=False),
+    sa.Column("close", DECIMAL(18, 9), nullable=False),
+    sa.Column("volume", sa.BigInteger, nullable=False),
 )
 
 central_bank_rate = sa.Table(
