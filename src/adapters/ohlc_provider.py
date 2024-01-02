@@ -1,16 +1,23 @@
-from datetime import datetime
+from datetime import date, datetime
 
 from databases import Database
 from databases.interfaces import Record
 
 
-class OHLC_Db_adapter:
+class OhlcDbAdapter:
     CANDLESS_TABLE_NAME: dict = {
         "1d": "ohlc_1d",
     }
 
     def __init__(self, db: Database):
         self._db = db
+
+    async def fetch_figi_by_ticker(self, ticker: str) -> str:
+        query: str = """
+            SELECT figi from securities WHERE ticker = :TICKER
+        """
+
+        return await self._db.fetch_val(query=query, values={"TICKER": ticker.upper()})
 
     def _choose_table(self, candles: str) -> str:
         return self.CANDLESS_TABLE_NAME[candles]
@@ -20,8 +27,8 @@ class OHLC_Db_adapter:
         *,
         figi: str,
         candles: str,
-        from_: datetime,
-        to_: datetime,
+        from_: datetime | date,
+        to_: datetime | date,
     ) -> list[Record]:
         table_name = self._choose_table(candles)
 
@@ -34,8 +41,8 @@ class OHLC_Db_adapter:
 
         values: dict = {
             "figi": figi,
-            from_: from_,
-            to_: to_,
+            "from_": from_,
+            "to_": to_,
         }
 
         return await self._db.fetch_all(

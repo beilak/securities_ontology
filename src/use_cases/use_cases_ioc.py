@@ -1,10 +1,11 @@
 from bakery import Bakery, Cake
 
-from use_cases.ohlc_reader import OHLCReader
+from src.use_cases.ohlc_reader import OHLCReader
+from src.adapters.adapters_ioc import AdaptersIOC
 
 
 class UseCasesIOC(Bakery):
     ohlc_reader: OHLCReader = Cake(
         OHLCReader,
-        data_provider=None,
+        data_provider=AdaptersIOC.ohlc_provider,
     )

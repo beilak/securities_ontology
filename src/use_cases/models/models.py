@@ -3,7 +3,7 @@ from datetime import datetime
 from decimal import Decimal
 
 
-class ohlc(tp.TypedDict):
+class Ohlc(tp.TypedDict):
     date: datetime
     open: Decimal
     high: Decimal

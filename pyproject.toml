@@ -16,6 +16,8 @@ databases = "^0.8.0"
 psycopg2-binary = "^2.9.9"
 tinkoff-investments = "^0.2.0b63"
 asyncpg = "^0.29.0"
+pydantic-settings = "^2.1.0"
+uvicorn = "^0.25.0"
 
 
 [tool.poetry.group.dev.dependencies]
