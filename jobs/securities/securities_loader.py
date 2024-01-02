@@ -1,10 +1,9 @@
 import os
-from sqlalchemy.util import asyncio
-
-from tinkoff.invest import Client, ShareResponse, Share
-from tinkoff.invest.services import InstrumentsService
 
 from databases import Database
+from sqlalchemy.util import asyncio
+from tinkoff.invest import Client, Share, ShareResponse
+from tinkoff.invest.services import InstrumentsService
 
 
 def fetch_shares_info(
