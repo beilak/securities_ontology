@@ -1,14 +1,14 @@
 from datetime import date, datetime
 
 from src.use_cases.models.enums import Candles
-from src.use_cases.protocols.data_provider import DataProviderProtocol
+from src.use_cases.protocols.ohlc_provider import OhlcProviderProtocol
 from src.use_cases.models.models import Ohlc
 
 
 class OHLCReader:
     def __init__(
         self,
-        data_provider: DataProviderProtocol,
+        data_provider: OhlcProviderProtocol,
     ) -> None:
         self._data_provider = data_provider
 

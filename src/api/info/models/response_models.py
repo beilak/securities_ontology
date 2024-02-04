@@ -1,9 +1,10 @@
-import typing as tp
 from datetime import datetime, date
 from decimal import Decimal
 
+from pydantic import BaseModel
 
-class Ohlc(tp.TypedDict):
+
+class OHLCRespModel(BaseModel):
     date: datetime
     open: Decimal
     high: Decimal
@@ -12,7 +13,7 @@ class Ohlc(tp.TypedDict):
     volume: int
 
 
-class Securities(tp.TypedDict):
+class SecuritiesRespModel(BaseModel):
     figi: str
     ticker: str
     name: str

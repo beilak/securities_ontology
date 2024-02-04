@@ -1,7 +1,8 @@
 from fastapi import FastAPI
 from src.adapters.adapters_ioc import AdaptersIOC
 from src.use_cases.use_cases_ioc import UseCasesIOC
-from src.api.ohlc.ohlc import ohlc_router
+from src.api.info.ohlc import ohlc_router
+from src.api.info.securities import securities_router
 
 
 APP: FastAPI
@@ -26,4 +27,6 @@ APP = FastAPI(
     on_shutdown=[service_shutdown],
 )
 
-APP.include_router(ohlc_router, prefix=f"{_API_PREFIX }/ohlc", tags=["OHLC"])
+
+APP.include_router(securities_router, prefix=f"{_API_PREFIX }", tags=["Securities"])
+APP.include_router(ohlc_router, prefix=f"{_API_PREFIX }", tags=["OHLC"])
