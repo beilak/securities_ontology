@@ -8,7 +8,9 @@ from db.db_models.db_models import metadata
 
 
 def get_dsn() -> str:
-    default_db_dsn = "postgresql://test_user:test_pwd@127.0.0.1:5432/test_db"
+    default_db_dsn = (
+        "postgresql://securities_user:securities_pwd@127.0.0.1:5432/securities_db"
+    )
 
     return os.getenv(
         "DB_DSN",
