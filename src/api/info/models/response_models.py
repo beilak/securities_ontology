@@ -1,9 +1,11 @@
-import typing as tp
 from datetime import datetime, date
 from decimal import Decimal
+from enum import StrEnum, auto
+
+from pydantic import BaseModel
 
 
-class Ohlc(tp.TypedDict):
+class OHLCRespModel(BaseModel):
     date: datetime
     open: Decimal
     high: Decimal
@@ -12,7 +14,7 @@ class Ohlc(tp.TypedDict):
     volume: int
 
 
-class Securities(tp.TypedDict):
+class SecuritiesRespModel(BaseModel):
     figi: str
     ticker: str
     name: str
@@ -20,17 +22,22 @@ class Securities(tp.TypedDict):
     first_1day_candle_date: date
     currency: str
     exchange: str
-    securities_type: int
+    securities_type: int | None
 
 
-class Div(tp.TypedDict):
+class DviRespModel(BaseModel):
     declared_date: date
     last_buy_date: date
     payment_date: date
     dividend_net: Decimal
 
 
-class Dividens(tp.TypedDict):
+class DividensRespModel(BaseModel):
     figi: str
     ticker: str
-    div: list[Div]
+    div: list[DviRespModel]
+
+
+class Exchanges(StrEnum):
+    MOEX = auto()
+    MOEX_EVENING_WEEKEND = auto()

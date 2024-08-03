@@ -3,7 +3,7 @@ from typing import List
 
 from fastapi import APIRouter, Depends, status
 from pydantic import parse_obj_as
-from src.api.ohlc.models.response_models import OHLCRespModel
+from src.api.info.models.response_models import OHLCRespModel
 from src.use_cases.models.enums import Candles
 from src.use_cases.ohlc_reader import OHLCReader
 from src.use_cases.use_cases_ioc import UseCasesIOC
@@ -12,7 +12,7 @@ ohlc_router: APIRouter = APIRouter()
 
 
 @ohlc_router.get(
-    "/{ticker}",
+    "/ohlc/{ticker}",
     status_code=status.HTTP_200_OK,
     response_model=List[OHLCRespModel],
 )

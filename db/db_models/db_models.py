@@ -13,7 +13,8 @@ metadata = sa.MetaData()
 securities_type = sa.Table(
     "securities_type",
     metadata,
-    sa.Column("id", UUID(as_uuid=True), primary_key=True, default=uuid4()),
+    # sa.Column("id", UUID(as_uuid=True), primary_key=True, default=uuid4()),
+    sa.Column("id", sa.Integer, primary_key=True),
     sa.Column("name", sa.String),
 )
 
@@ -79,6 +80,17 @@ securities = sa.Table(
     sa.Column("first_1day_candle_date", sa.Date),
     sa.Column("currency", sa.String, sa.ForeignKey("currency.id")),
     sa.Column("exchange", sa.String, sa.ForeignKey("exchange.id"), nullable=False),
+    sa.Column("securities_type", sa.ForeignKey("securities_type.id"), nullable=True),
+)
+
+divid = sa.Table(
+    "divid",
+    metadata,
+    sa.Column("figi", sa.String, primary_key=True),
+    sa.Column("declared_date", sa.DateTime, primary_key=True),
+    sa.Column("last_buy_date", sa.DateTime, primary_key=True),
+    sa.Column("payment_date", sa.DateTime, primary_key=True),
+    sa.Column("dividend_net", DECIMAL(18, 9), nullable=False),
 )
 
 ohlc = sa.Table(
