@@ -1,3 +1,4 @@
+from src.adapters.divid_provider import DividDbAdapter
 from bakery import Bakery, Cake
 from databases import Database
 from src.adapters.ohlc_provider import OhlcDbAdapter
@@ -24,5 +25,10 @@ class AdaptersIOC(Bakery):
 
     securities_provider: SecuritiesDbAdapter = Cake(
         SecuritiesDbAdapter,
+        db=db,
+    )
+
+    divi_provider = Cake(
+        DividDbAdapter,
         db=db,
     )

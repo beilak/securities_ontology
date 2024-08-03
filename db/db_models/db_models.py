@@ -83,6 +83,16 @@ securities = sa.Table(
     sa.Column("securities_type", sa.ForeignKey("securities_type.id"), nullable=True),
 )
 
+divid = sa.Table(
+    "divid",
+    metadata,
+    sa.Column("figi", sa.String, primary_key=True),
+    sa.Column("declared_date", sa.DateTime, primary_key=True),
+    sa.Column("last_buy_date", sa.DateTime, primary_key=True),
+    sa.Column("payment_date", sa.DateTime, primary_key=True),
+    sa.Column("dividend_net", DECIMAL(18, 9), nullable=False),
+)
+
 ohlc = sa.Table(
     "ohlc_1d",
     metadata,
